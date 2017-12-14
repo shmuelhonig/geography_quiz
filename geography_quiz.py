@@ -64,8 +64,7 @@ def fill_it_in(to_be_replaced, replace_with, which_question):
     else:
         updated_question = updated_question.replace(
             to_be_replaced, replace_with)
-    print
-    print updated_question
+    print "\n" + updated_question
     return updated_question
 
 
@@ -92,22 +91,18 @@ def you_are_incorrect(to_be_replaced, replace_with, which_question):
     global blanks_completed, correct_answers, num_attempts
     attempts_taken = 1
     while attempts_taken < num_attempts:
-        print
-        print 'That is incorrect. You have ' + str(
-            num_attempts - attempts_taken) + ' attempts remaining'
-        print
+        print '\nThat is incorrect. You have ' + str(
+            num_attempts - attempts_taken) + ' attempts remaining\n'
         user_answer = raw_input(
             'What should be substituted for ' + to_be_replaced + '? ').upper()
         if user_answer == replace_with:
-            print
-            print 'Correct!'
+            print '\nCorrect!'
             correct_answers = correct_answers + 1
             fill_it_in(to_be_replaced, user_answer, which_question)
             break
         attempts_taken = attempts_taken + 1
     if attempts_taken == num_attempts:
-        print
-        print 'That is incorrect. You have no more attempts'
+        print '\nThat is incorrect. You have no more attempts'
         fill_it_in(to_be_replaced, replace_with, which_question)
 
 
@@ -133,12 +128,10 @@ def play_quiz(which_blanks, which_answers, which_question):
     """
     global blanks_completed, correct_answers
     for blank_item in which_blanks:
-        print
         user_answer = raw_input(
-            'What should be substituted for ' + blank_item + '? ').upper()
+            '\nWhat should be substituted for ' + blank_item + '? ').upper()
         if user_answer == which_answers[0 + blanks_completed]:
-            print
-            print 'Correct!'
+            print '\nCorrect!'
             correct_answers = correct_answers + 1
             fill_it_in(blank_item, user_answer, which_question)
         else:
@@ -146,9 +139,8 @@ def play_quiz(which_blanks, which_answers, which_question):
                 blank_item, which_answers[0 + blanks_completed],
                 which_question)
         blanks_completed = blanks_completed + 1
-    print
-    print 'Thanks for playing! You answered ' + str(correct_answers) + ' out of
-    ' + str(len(which_blanks)) + ' correctly'
+    print '\nThanks for playing! You answered ' + str(correct_answers) +\
+          ' out of ' + str(len(which_blanks)) + ' correctly'
 
 
 def question_allocation(which_level):
@@ -171,8 +163,7 @@ def question_allocation(which_level):
         question = hard_question
         list_of_blanks = hard_list_of_blanks
         list_of_answers = hard_list_of_answers
-    print
-    print question
+    print '\n' + question
     play_quiz(list_of_blanks, list_of_answers, question)
 
 
@@ -186,21 +177,17 @@ def level_and_attempts():
     : Return: None (directs program to another function)
     """
     global num_attempts
-    print 'There are three levels: easy, medium, and hard.'
+    print '\nThere are three levels: easy, medium, and hard.'
     level_options = ['EASY', 'MEDIUM', 'HARD']
     selected_level = raw_input('Type your preference and press enter ').upper()
     while selected_level not in level_options:
-        print
-        print 'Invalid selection.'
-        print
+        print '\nInvalid selection.\n'
         selected_level = raw_input(
             'Type your preference and press enter ').upper()
     num_attempts = int(raw_input(
         'How many guesses would you like for each question? '))
     while num_attempts < 1:
-        print
-        print 'Invalid selection'
-        print
+        print '\nInvalid selection\n'
         num_attempts = int(raw_input(
             'How many guesses would you like for each question? '))
     question_allocation(selected_level)
@@ -216,18 +203,16 @@ def again():
     : Return: None (directs program to another function).
     """
     play_again = raw_input(
-        'Would you like to play again? Type yes or no ').upper()
+        '\nWould you like to play again? Type yes or no ').upper()
     play_again_options = ['YES', 'NO']
     while play_again not in play_again_options:
-        print
-        print 'Invalid selection.'
-        print
+        print '\nInvalid selection.\n'
         play_again = raw_input(
-            'Would you like to play again? Type yes or no ').upper()
+            '\nWould you like to play again? Type yes or no ').upper()
     if play_again == 'YES':
         level_and_attempts()
 
-print 'Welcome to the quiz!'
+print '\nWelcome to the quiz!\n'
 level_and_attempts()
 again()
 raw_input('Press Enter to exit')
