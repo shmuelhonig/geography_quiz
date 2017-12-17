@@ -187,12 +187,16 @@ def level_and_attempts():
         print '\nInvalid selection.\n'
         selected_level = raw_input(
             'Type your preference and press enter ').upper()
-    num_attempts = int(raw_input(
-        'How many guesses would you like for each question? '))
-    while num_attempts < 1:
-        print '\nInvalid selection\n'
-        num_attempts = int(raw_input(
-            'How many guesses would you like for each question? '))
+    while True:
+        try:
+            num_attempts = int(raw_input(
+                'How many guesses would you like for each question? (5 max) '))
+            if 5 >= num_attempts >= 1:
+                break
+            else:
+                print '\nInvalid selection\n'
+        except:
+            print '\nInvalid selection\n'
     question_allocation(selected_level)
 
 
