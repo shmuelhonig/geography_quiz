@@ -141,6 +141,7 @@ def play_quiz(which_blanks, which_answers, which_question):
         blanks_completed = blanks_completed + 1
     print '\nThanks for playing! You answered ' + str(correct_answers) +\
           ' out of ' + str(len(which_blanks)) + ' correctly'
+    blanks_completed = 0
 
 
 def question_allocation(which_level):
