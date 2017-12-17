@@ -142,6 +142,7 @@ def play_quiz(which_blanks, which_answers, which_question):
     print '\nThanks for playing! You answered ' + str(correct_answers) +\
           ' out of ' + str(len(which_blanks)) + ' correctly'
     blanks_completed = 0
+    again()
 
 
 def question_allocation(which_level):
@@ -215,5 +216,4 @@ def again():
 
 print '\nWelcome to the quiz!\n'
 level_and_attempts()
-again()
 raw_input('Press Enter to exit')
