@@ -142,6 +142,7 @@ def play_quiz(which_blanks, which_answers, which_question):
     print '\nThanks for playing! You answered ' + str(correct_answers) +\
           ' out of ' + str(len(which_blanks)) + ' correctly'
     blanks_completed = 0
+    correct_answers = 0
     again()
 
 
