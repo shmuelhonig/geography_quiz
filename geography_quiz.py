@@ -1,18 +1,18 @@
 #!/usr/bin/env python2.7
 
-easy_question = """The capital of France is ___1___\nThe capital of the United
-Kingdom is ___2___\nThe capital of Italy is ___3___\nAll three countries are
-located in ___4___, one of the seven continents"""
-medium_question = """The largest state in the United States by population is
-___1___\nThe capital of ___1___ is ___2___\nThe smallest state by population is
-Wyoming, and the next smallest state is ___3___\nThe capital of ___3___ is
+easy_question = """The capital of France is ___1___\nThe capital of the \
+United Kingdom is ___2___\nThe capital of Italy is ___3___\nAll three \
+countries are located in ___4___, one of the seven continents"""
+medium_question = """The largest state in the United States by population is \
+___1___\nThe capital of ___1___ is ___2___\nThe smallest state by population \
+is Wyoming, and the next smallest state is ___3___\nThe capital of ___3___ is \
 ___4___\nThe capital of ___5___, also known as The Natural State, is ___6___"""
-hard_question = """___1___, the oldest state capital city in the United States,
-was founded in 1610\nThe largest state capital by population is
-___2___\n___3___ is the name of the largest city in two different states, but
-does not identify the capital of either\nAlthough Homer will never tell you the
-location of his home town, a real city with the same name is the capital of
-___4___"""
+hard_question = """___1___, the oldest state capital city in the United \
+States, was founded in 1610\nThe largest state capital by population is \
+___2___\n___3___ is the name of the largest city in two different states, but \
+does not identify the capital of either\nAlthough Homer will never tell you \
+the location of his home town, a real city with the same name is the capital \
+of ___4___"""
 
 easy_list_of_blanks = ['___1___', '___2___', '___3___', '___4___']
 easy_list_of_answers = ['PARIS', 'LONDON', 'ROME', 'EUROPE']
