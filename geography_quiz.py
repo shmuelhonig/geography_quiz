@@ -38,15 +38,6 @@ hard_answers = {
     '___4___': 'ILLINOIS'
     }
 
-#easy_list_of_blanks = ['___1___', '___2___', '___3___', '___4___']
-#easy_list_of_answers = ['PARIS', 'LONDON', 'ROME', 'EUROPE']
-#medium_list_of_blanks = [
-#    '___1___', '___2___', '___3___', '___4___', '___5___', '___6___']
-#medium_list_of_answers = [
-#    'CALIFORNIA', 'SACRAMENTO', 'VERMONT', 'MONTPELIER', 'ARKANSAS',
-#    'LITTLE ROCK']
-#hard_list_of_blanks = ['___1___', '___2___', '___3___', '___4___']
-#hard_list_of_answers = ['SANTA FE', 'PHOENIX', 'PORTLAND', 'ILLINOIS']
 
 blanks_completed = 0
 # Tracks how many blanks have been completed up to that point during play.
@@ -65,11 +56,10 @@ def fill_it_in(blank, answer, which_question):
     Behavior: Fills in blanks when either user has answered correctly or has
     run out of guesses.
     : Parameters: The question chosen by the user, the current blank number,
-    and the answer that should replace the
-    blank. Also uses two global variables, one that keeps track of the number
-    of blanks that have been completed and
-    one that keeps track of the updated question, i.e. the question with
-    appropriate blanks already filled in.
+    and the answer that should replace the blank. Also uses two global
+    variables, one that keeps track of the number of blanks that have been
+    completed and one that keeps track of the updated question, i.e. the
+    question with appropriate blanks already filled in.
     : Return: The given question with relevant blanks filled in.
     """
     global blanks_completed, updated_question
@@ -77,13 +67,12 @@ def fill_it_in(blank, answer, which_question):
         # When the first blank in the question is filled, the original question
         # must be updated.
         # When subsequent blanks are filled, the updated question must be
-        # updated; therefore when the
-        # number of blanks completed is greater than 0, the formula is
-        # different.
+        # updated; therefore when the number of blanks completed is greater
+        # than 0, the formula is different.
         # I tried multiple ways of achieving the same result with just one
-        # reassignment statement (including
-        # converting the strings to lists), and I found that this method was
-        # the easiest and cleanest way to do it.
+        # reassignment statement (including converting the strings to lists),
+        # and I found that this method was the easiest and cleanest way to do
+        # it.
         updated_question = which_question.replace(blank, answer)
     else:
         updated_question = updated_question.replace(
@@ -95,21 +84,18 @@ def fill_it_in(blank, answer, which_question):
 def you_are_incorrect(key, value, which_question):
     """
     Behavior: For wrong answers, tells user how many attempts are left; if
-    there are no more attempts, then it
-    directs the program to go to the function that fills in the blank, and if
-    there are more attempts, then it
+    there are no more attempts, then it directs the program to go to the
+    function that fills in the blank, and if there are more attempts, then it
     prompts the user to give another answer. If the user is correct this time,
-    then it directs the program to go to
-    the function that fills in the blank, and it also updates the number of
-    blanks that have been answered
-    correctly. If the user is incorrect again then the behavior repeats.
+    then it directs the program to go to the function that fills in the blank,
+    and it also updates the number of blanks that have been answered correctly.
+    If the user is incorrect again then the behavior repeats.
     : Parameters: The question chosen by the user, the current blank number,
-    and the correct answer for the given
-    blank. Also uses three global variables, one that keeps track of the number
-    of blanks that have been completed,
-    one that keeps track of the number of blanks that have been answered
-    correctly, and one that stores the number of
-    attempts the user has chosen to get.
+    and the correct answer for the given blank. Also uses three global
+    variables, one that keeps track of the number of blanks that have been
+    completed, one that keeps track of the number of blanks that have been
+    answered correctly, and one that stores the number of attempts the user has
+    chosen to get.
     : Return: None (directs the program to other function).
     """
     global blanks_completed, correct_answers, num_attempts
@@ -133,20 +119,17 @@ def you_are_incorrect(key, value, which_question):
 def play_quiz(which_dictionary, which_question):
     """
     Behavior: Initiates the quiz. Prompts user to fill in the blank, and,
-    depending on whether the answer is
-    correct or incorrect, directs the program to the appropriate function. If
-    the user is correct, it updates
+    depending on whether the answer is correct or incorrect, directs the
+    program to the appropriate function. If the user is correct, it updates
     the number of blanks that have been answered correctly. Before looping to
-    the next blank to be filled in,
-    updates the number of blanks that have been completed. Upon completion of
-    game, lets user know how many
-    questions they answered correctly.
-    : Parameters: The question chosen by the user, the associated list of
-    blanks, and the associated list of answers.
-    Also uses two global variables, one that keeps track of the number of
-    blanks that have been completed and
-    one that keeps track of the number of blanks that have been answered
-    correctly.
+    the next blank to be filled in, updates the number of blanks that have been
+    completed. Upon completion of game, lets user know how many questions they
+    answered correctly and directs the program to the function that asks
+    whether the user wants to play again.
+    : Parameters: The question chosen by the user and the dictionary containing
+    the appropriate answers. Also uses two global variables, one that keeps
+    track of the number of blanks that have been completed and one that keeps
+    track of the number of blanks that have been answered correctly.
     : Return: None (directs the program to other functions and prints some
     messages).
     """
@@ -170,10 +153,10 @@ def play_quiz(which_dictionary, which_question):
 
 def question_allocation(which_level):
     """
-    Behavior: Allocates the apprpriate question and lists to be used in the
-    quiz based on user input.
+    Behavior: Allocates the apprpriate question and dictionary to be used in
+    the quiz based on user input.
     : Parameters: The level selected by the user.
-    : Return: Prints the appropriate question and directs prtogram to function
+    : Return: Prints the appropriate question and directs program to function
     for playing quiz.
     """
     if which_level == 'EASY':
@@ -192,8 +175,8 @@ def question_allocation(which_level):
 def level_and_attempts():
     """
     Behavior: Collects user input for which level of quiz to play and how many
-    attempts the user will get. Prompts
-    user again if invalid selections are made.
+    attempts the user will get. Prompts user again if invalid selections are
+    made.
     : Parameters: None, but uses global variable that stores how many attempts
     the user has chosen to get.
     : Return: None (directs program to another function)
@@ -222,9 +205,8 @@ def level_and_attempts():
 def again():
     """
     Behavior: Asks user if user wants to play again. If user selects yes, then
-    it directs program to once again go
-    to function that asks user for required input. Prompts user again if
-    invalid selection is made.
+    it directs program to once again go to function that asks user for required
+    input. Prompts user again if invalid selection is made.
     : Parameters: None.
     : Return: None (directs program to another function).
     """
