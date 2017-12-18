@@ -39,15 +39,15 @@ hard_answers = {
     }
 
 
-blanks_completed = 0
+#blanks_completed = 0
 # Tracks how many blanks have been completed up to that point during play.
 # Introduced as global variable so that
 # can be used in multiple functions without having the counter restarted.
-correct_answers = 0  # Tracks how many blanks have been correctly answered by
+#correct_answers = 0  # Tracks how many blanks have been correctly answered by
 # the user
-num_attempts = 0  # Tracks how many attempts the user has chosen to be allowed
+#num_attempts = 0  # Tracks how many attempts the user has chosen to be allowed
 # to take
-updated_question = ''  # Refers to the specified question with completed blanks
+#updated_question = ''  # Refers to the specified question with completed blanks
 # filled in.
 
 
@@ -172,23 +172,13 @@ def question_allocation(which_level):
     play_quiz(answers_dictionary, question)
 
 
-def level_and_attempts():
+def attempts():
     """
-    Behavior: Collects user input for which level of quiz to play and how many
-    attempts the user will get. Prompts user again if invalid selections are
-    made.
-    : Parameters: None, but uses global variable that stores how many attempts
-    the user has chosen to get.
-    : Return: None (directs program to another function)
+    Behavior: Collects user input for how many guesses user should get for each
+    question. Prompts user again if invalid selection is made.
+    : Parameters: None.
+    : Return: The number of guesses chosen by the user.
     """
-    global num_attempts
-    print '\nThere are three levels: easy, medium, and hard.'
-    level_options = ['EASY', 'MEDIUM', 'HARD']
-    selected_level = raw_input('Type your preference and press enter ').upper()
-    while selected_level not in level_options:
-        print '\nInvalid selection.\n'
-        selected_level = raw_input(
-            'Type your preference and press enter ').upper()
     while True:
         try:
             num_attempts = int(raw_input(
@@ -199,8 +189,24 @@ def level_and_attempts():
                 print '\nInvalid selection\n'
         except:
             print '\nInvalid selection\n'
-    question_allocation(selected_level)
+    return num_attempts
 
+
+def level():
+    """
+    Behavior: Collects user input for which level of quiz to play. Prompts user
+    again if invalid selection is made.
+    : Parameters: None.
+    : Return: The level selected by the user.
+    """
+    print '\nThere are three levels: easy, medium, and hard.'
+    level_options = ['EASY', 'MEDIUM', 'HARD']
+    selected_level = raw_input('Type your preference and press enter ').upper()
+    while selected_level not in level_options:
+        print '\nInvalid selection.\n'
+        selected_level = raw_input(
+            'Type your preference and press enter ').upper()
+    return selected_level
 
 def again():
     """
@@ -221,5 +227,7 @@ def again():
         level_and_attempts()
 
 print '\nWelcome to the quiz!\n'
-level_and_attempts()
+level()
+attempts()
+question_allocation()
 raw_input('Press Enter to exit')
