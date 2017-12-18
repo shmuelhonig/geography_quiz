@@ -14,15 +14,39 @@ does not identify the capital of either\nAlthough Homer will never tell you \
 the location of his home town, a real city with the same name is the capital \
 of ___4___"""
 
-easy_list_of_blanks = ['___1___', '___2___', '___3___', '___4___']
-easy_list_of_answers = ['PARIS', 'LONDON', 'ROME', 'EUROPE']
-medium_list_of_blanks = [
-    '___1___', '___2___', '___3___', '___4___', '___5___', '___6___']
-medium_list_of_answers = [
-    'CALIFORNIA', 'SACRAMENTO', 'VERMONT', 'MONTPELIER', 'ARKANSAS',
-    'LITTLE ROCK']
-hard_list_of_blanks = ['___1___', '___2___', '___3___', '___4___']
-hard_list_of_answers = ['SANTA FE', 'PHOENIX', 'PORTLAND', 'ILLINOIS']
+
+easy_answers = {
+    '___1___': 'PARIS',
+    '___2___': 'LONDON',
+    '___3___': 'ROME',
+    '___4___': 'EUROPE'
+    }
+
+medium_answers = {
+    '___1___': 'CALIFORNIA',
+    '___2___': 'SACRAMENTO',
+    '___3___': 'VERMONT',
+    '___4___': 'MONTPELIER',
+    '___5___': 'ARKANSAS',
+    '___6___': 'LITTLE ROCK'
+    }
+
+hard_answers = {
+    '___1___': 'SANTA FE',
+    '___2___': 'PHOENIX',
+    '___3___': 'PORTLAND',
+    '___4___': 'ILLINOIS'
+    }
+
+#easy_list_of_blanks = ['___1___', '___2___', '___3___', '___4___']
+#easy_list_of_answers = ['PARIS', 'LONDON', 'ROME', 'EUROPE']
+#medium_list_of_blanks = [
+#    '___1___', '___2___', '___3___', '___4___', '___5___', '___6___']
+#medium_list_of_answers = [
+#    'CALIFORNIA', 'SACRAMENTO', 'VERMONT', 'MONTPELIER', 'ARKANSAS',
+#    'LITTLE ROCK']
+#hard_list_of_blanks = ['___1___', '___2___', '___3___', '___4___']
+#hard_list_of_answers = ['SANTA FE', 'PHOENIX', 'PORTLAND', 'ILLINOIS']
 
 blanks_completed = 0
 # Tracks how many blanks have been completed up to that point during play.
@@ -36,7 +60,7 @@ updated_question = ''  # Refers to the specified question with completed blanks
 # filled in.
 
 
-def fill_it_in(to_be_replaced, replace_with, which_question):
+def fill_it_in(blank, answer, which_question):
     """
     Behavior: Fills in blanks when either user has answered correctly or has
     run out of guesses.
@@ -60,15 +84,15 @@ def fill_it_in(to_be_replaced, replace_with, which_question):
         # reassignment statement (including
         # converting the strings to lists), and I found that this method was
         # the easiest and cleanest way to do it.
-        updated_question = which_question.replace(to_be_replaced, replace_with)
+        updated_question = which_question.replace(blank, answer)
     else:
         updated_question = updated_question.replace(
-            to_be_replaced, replace_with)
+            blank, answer)
     print "\n" + updated_question
     return updated_question
 
 
-def you_are_incorrect(to_be_replaced, replace_with, which_question):
+def you_are_incorrect(key, value, which_question):
     """
     Behavior: For wrong answers, tells user how many attempts are left; if
     there are no more attempts, then it
@@ -94,19 +118,19 @@ def you_are_incorrect(to_be_replaced, replace_with, which_question):
         print '\nThat is incorrect. You have ' + str(
             num_attempts - attempts_taken) + ' attempts remaining\n'
         user_answer = raw_input(
-            'What should be substituted for ' + to_be_replaced + '? ').upper()
-        if user_answer == replace_with:
+            'What should be substituted for ' + key + '? ').upper()
+        if user_answer == value:
             print '\nCorrect!'
             correct_answers = correct_answers + 1
-            fill_it_in(to_be_replaced, user_answer, which_question)
+            fill_it_in(key, value, which_question)
             break
         attempts_taken = attempts_taken + 1
     if attempts_taken == num_attempts:
         print '\nThat is incorrect. You have no more attempts'
-        fill_it_in(to_be_replaced, replace_with, which_question)
+        fill_it_in(key, value, which_question)
 
 
-def play_quiz(which_blanks, which_answers, which_question):
+def play_quiz(which_dictionary, which_question):
     """
     Behavior: Initiates the quiz. Prompts user to fill in the blank, and,
     depending on whether the answer is
@@ -127,20 +151,18 @@ def play_quiz(which_blanks, which_answers, which_question):
     messages).
     """
     global blanks_completed, correct_answers
-    for blank_item in which_blanks:
+    for key, value in sorted(which_dictionary.iteritems()):
         user_answer = raw_input(
-            '\nWhat should be substituted for ' + blank_item + '? ').upper()
-        if user_answer == which_answers[0 + blanks_completed]:
+            '\nWhat should be substituted for ' + key + '? ').upper()
+        if user_answer == value:
             print '\nCorrect!'
             correct_answers = correct_answers + 1
-            fill_it_in(blank_item, user_answer, which_question)
+            fill_it_in(key, value, which_question)
         else:
-            you_are_incorrect(
-                blank_item, which_answers[0 + blanks_completed],
-                which_question)
+            you_are_incorrect(key, value, which_question)
         blanks_completed = blanks_completed + 1
     print '\nThanks for playing! You answered ' + str(correct_answers) +\
-          ' out of ' + str(len(which_blanks)) + ' correctly'
+          ' out of ' + str(len(which_dictionary)) + ' correctly'
     blanks_completed = 0
     correct_answers = 0
     again()
@@ -156,18 +178,15 @@ def question_allocation(which_level):
     """
     if which_level == 'EASY':
         question = easy_question
-        list_of_blanks = easy_list_of_blanks
-        list_of_answers = easy_list_of_answers
+        answers_dictionary = easy_answers
     if which_level == 'MEDIUM':
         question = medium_question
-        list_of_blanks = medium_list_of_blanks
-        list_of_answers = medium_list_of_answers
+        answers_dictionary = medium_answers
     if which_level == 'HARD':
         question = hard_question
-        list_of_blanks = hard_list_of_blanks
-        list_of_answers = hard_list_of_answers
+        answers_dictionary = hard_answers
     print '\n' + question
-    play_quiz(list_of_blanks, list_of_answers, question)
+    play_quiz(answers_dictionary, question)
 
 
 def level_and_attempts():
