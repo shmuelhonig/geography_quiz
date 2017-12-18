@@ -38,20 +38,11 @@ hard_answers = {
     '___4___': 'ILLINOIS'
     }
 
-
-#blanks_completed = 0
-# Tracks how many blanks have been completed up to that point during play.
-# Introduced as global variable so that
-# can be used in multiple functions without having the counter restarted.
-#correct_answers = 0  # Tracks how many blanks have been correctly answered by
-# the user
-#num_attempts = 0  # Tracks how many attempts the user has chosen to be allowed
-# to take
-#updated_question = ''  # Refers to the specified question with completed blanks
+updated_question = ''  # Refers to the specified question with completed blanks
 # filled in.
 
 
-def fill_it_in(blank, answer, which_question):
+def fill_it_in(key, value, which_question, blanks_completed):
     """
     Behavior: Fills in blanks when either user has answered correctly or has
     run out of guesses.
@@ -62,7 +53,7 @@ def fill_it_in(blank, answer, which_question):
     question with appropriate blanks already filled in.
     : Return: The given question with relevant blanks filled in.
     """
-    global blanks_completed, updated_question
+    global updated_question
     if blanks_completed == 0:
         # When the first blank in the question is filled, the original question
         # must be updated.
@@ -73,15 +64,15 @@ def fill_it_in(blank, answer, which_question):
         # reassignment statement (including converting the strings to lists),
         # and I found that this method was the easiest and cleanest way to do
         # it.
-        updated_question = which_question.replace(blank, answer)
+        updated_question = which_question.replace(key, value)
     else:
         updated_question = updated_question.replace(
-            blank, answer)
+            key, value)
     print "\n" + updated_question
     return updated_question
 
 
-def you_are_incorrect(key, value, which_question):
+def you_are_incorrect(key, value, which_question, blanks_completed, num_attempts, correct_answers):
     """
     Behavior: For wrong answers, tells user how many attempts are left; if
     there are no more attempts, then it directs the program to go to the
@@ -98,7 +89,6 @@ def you_are_incorrect(key, value, which_question):
     chosen to get.
     : Return: None (directs the program to other function).
     """
-    global blanks_completed, correct_answers, num_attempts
     attempts_taken = 1
     while attempts_taken < num_attempts:
         print '\nThat is incorrect. You have ' + str(
@@ -108,15 +98,15 @@ def you_are_incorrect(key, value, which_question):
         if user_answer == value:
             print '\nCorrect!'
             correct_answers = correct_answers + 1
-            fill_it_in(key, value, which_question)
+            fill_it_in(key, value, which_question, blanks_completed)
             break
         attempts_taken = attempts_taken + 1
     if attempts_taken == num_attempts:
         print '\nThat is incorrect. You have no more attempts'
-        fill_it_in(key, value, which_question)
+        fill_it_in(key, value, which_question, blanks_completed)
 
 
-def play_quiz(which_dictionary, which_question):
+def play_quiz(which_dictionary, which_question, num_attempts):
     """
     Behavior: Initiates the quiz. Prompts user to fill in the blank, and,
     depending on whether the answer is correct or incorrect, directs the
@@ -133,43 +123,23 @@ def play_quiz(which_dictionary, which_question):
     : Return: None (directs the program to other functions and prints some
     messages).
     """
-    global blanks_completed, correct_answers
+    blanks_completed = 0 # Tracks how many blanks have been completed up to
+    # that point during play
+    correct_answers = 0 # Tracks how many blanks have been correctly answered
+    # by the user
     for key, value in sorted(which_dictionary.iteritems()):
         user_answer = raw_input(
             '\nWhat should be substituted for ' + key + '? ').upper()
         if user_answer == value:
             print '\nCorrect!'
             correct_answers = correct_answers + 1
-            fill_it_in(key, value, which_question)
+            fill_it_in(key, value, which_question, blanks_completed)
         else:
-            you_are_incorrect(key, value, which_question)
+            you_are_incorrect(key, value, which_question, blanks_completed, num_attempts, correct_answers)
         blanks_completed = blanks_completed + 1
     print '\nThanks for playing! You answered ' + str(correct_answers) +\
           ' out of ' + str(len(which_dictionary)) + ' correctly'
-    blanks_completed = 0
-    correct_answers = 0
     again()
-
-
-def question_allocation(which_level):
-    """
-    Behavior: Allocates the apprpriate question and dictionary to be used in
-    the quiz based on user input.
-    : Parameters: The level selected by the user.
-    : Return: Prints the appropriate question and directs program to function
-    for playing quiz.
-    """
-    if which_level == 'EASY':
-        question = easy_question
-        answers_dictionary = easy_answers
-    if which_level == 'MEDIUM':
-        question = medium_question
-        answers_dictionary = medium_answers
-    if which_level == 'HARD':
-        question = hard_question
-        answers_dictionary = hard_answers
-    print '\n' + question
-    play_quiz(answers_dictionary, question)
 
 
 def attempts():
@@ -181,15 +151,15 @@ def attempts():
     """
     while True:
         try:
-            num_attempts = int(raw_input(
+            num_guesses = int(raw_input(
                 'How many guesses would you like for each question? (5 max) '))
-            if 5 >= num_attempts >= 1:
+            if 5 >= num_guesses >= 1:
                 break
             else:
                 print '\nInvalid selection\n'
         except:
             print '\nInvalid selection\n'
-    return num_attempts
+    return num_guesses
 
 
 def level():
@@ -201,12 +171,36 @@ def level():
     """
     print '\nThere are three levels: easy, medium, and hard.'
     level_options = ['EASY', 'MEDIUM', 'HARD']
-    selected_level = raw_input('Type your preference and press enter ').upper()
-    while selected_level not in level_options:
+    chosen_level = raw_input('Type your preference and press enter ').upper()
+    while chosen_level not in level_options:
         print '\nInvalid selection.\n'
-        selected_level = raw_input(
+        chosen_level = raw_input(
             'Type your preference and press enter ').upper()
-    return selected_level
+    return chosen_level
+
+
+def question_allocation():
+    """
+    Behavior: Allocates the apprpriate question and dictionary to be used in
+    the quiz based on user input.
+    : Parameters: The level selected by the user.
+    : Return: Prints the appropriate question and directs program to function
+    for playing quiz.
+    """
+    selected_level = level()
+    if selected_level == 'EASY':
+        question = easy_question
+        answers_dictionary = easy_answers
+    if selected_level == 'MEDIUM':
+        question = medium_question
+        answers_dictionary = medium_answers
+    if selected_level == 'HARD':
+        question = hard_question
+        answers_dictionary = hard_answers
+    num_attempts = attempts()
+    print '\n' + question
+    play_quiz(answers_dictionary, question, num_attempts)
+
 
 def again():
     """
@@ -224,10 +218,8 @@ def again():
         play_again = raw_input(
             '\nWould you like to play again? Type yes or no ').upper()
     if play_again == 'YES':
-        level_and_attempts()
+        question_allocation()
 
 print '\nWelcome to the quiz!\n'
-level()
-attempts()
 question_allocation()
 raw_input('Press Enter to exit')
