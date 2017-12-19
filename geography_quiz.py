@@ -97,7 +97,7 @@ def you_are_incorrect(key, value, which_question, blanks_completed, num_attempts
             'What should be substituted for ' + key + '? ').upper()
         if user_answer == value:
             print '\nCorrect!'
-            correct_answers = correct_answers + 1
+            correct_answers[0] += 1
             fill_it_in(key, value, which_question, blanks_completed)
             break
         attempts_taken = attempts_taken + 1
@@ -125,19 +125,19 @@ def play_quiz(which_dictionary, which_question, num_attempts):
     """
     blanks_completed = 0 # Tracks how many blanks have been completed up to
     # that point during play
-    correct_answers = 0 # Tracks how many blanks have been correctly answered
+    correct_answers = [0] # Tracks how many blanks have been correctly answered
     # by the user
     for key, value in sorted(which_dictionary.iteritems()):
         user_answer = raw_input(
             '\nWhat should be substituted for ' + key + '? ').upper()
         if user_answer == value:
             print '\nCorrect!'
-            correct_answers = correct_answers + 1
+            correct_answers[0] += 1
             fill_it_in(key, value, which_question, blanks_completed)
         else:
             you_are_incorrect(key, value, which_question, blanks_completed, num_attempts, correct_answers)
         blanks_completed = blanks_completed + 1
-    print '\nThanks for playing! You answered ' + str(correct_answers) +\
+    print '\nThanks for playing! You answered ' + str(correct_answers[0]) +\
           ' out of ' + str(len(which_dictionary)) + ' correctly'
     again()
 
