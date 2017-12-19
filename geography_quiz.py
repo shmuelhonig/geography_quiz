@@ -72,7 +72,7 @@ def fill_it_in(key, value, which_question, blanks_completed):
     return updated_question
 
 
-def you_are_incorrect(key, value, which_question, blanks_completed, num_attempts, correct_answers):
+def you_are_incorrect(key, value, num_attempts, correct_answers):
     """
     Behavior: For wrong answers, tells user how many attempts are left; if
     there are no more attempts, then it directs the program to go to the
@@ -98,12 +98,10 @@ def you_are_incorrect(key, value, which_question, blanks_completed, num_attempts
         if user_answer == value:
             print '\nCorrect!'
             correct_answers[0] += 1
-            fill_it_in(key, value, which_question, blanks_completed)
             break
         attempts_taken = attempts_taken + 1
     if attempts_taken == num_attempts:
         print '\nThat is incorrect. You have no more attempts'
-        fill_it_in(key, value, which_question, blanks_completed)
 
 
 def play_quiz(which_dictionary, which_question, num_attempts):
@@ -133,9 +131,9 @@ def play_quiz(which_dictionary, which_question, num_attempts):
         if user_answer == value:
             print '\nCorrect!'
             correct_answers[0] += 1
-            fill_it_in(key, value, which_question, blanks_completed)
         else:
-            you_are_incorrect(key, value, which_question, blanks_completed, num_attempts, correct_answers)
+            you_are_incorrect(key, value, num_attempts, correct_answers)
+        fill_it_in(key, value, which_question, blanks_completed)
         blanks_completed = blanks_completed + 1
     print '\nThanks for playing! You answered ' + str(correct_answers[0]) +\
           ' out of ' + str(len(which_dictionary)) + ' correctly'
