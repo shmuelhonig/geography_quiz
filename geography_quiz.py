@@ -38,39 +38,6 @@ hard_answers = {
     '___4___': 'ILLINOIS'
     }
 
-updated_question = ''  # Refers to the specified question with completed blanks
-# filled in.
-
-
-def fill_it_in(key, value, which_question, blanks_completed):
-    """
-    Behavior: Fills in blanks when either user has answered correctly or has
-    run out of guesses.
-    : Parameters: The question chosen by the user, the current blank number,
-    and the answer that should replace the blank. Also uses two global
-    variables, one that keeps track of the number of blanks that have been
-    completed and one that keeps track of the updated question, i.e. the
-    question with appropriate blanks already filled in.
-    : Return: The given question with relevant blanks filled in.
-    """
-    global updated_question
-    if blanks_completed == 0:
-        # When the first blank in the question is filled, the original question
-        # must be updated.
-        # When subsequent blanks are filled, the updated question must be
-        # updated; therefore when the number of blanks completed is greater
-        # than 0, the formula is different.
-        # I tried multiple ways of achieving the same result with just one
-        # reassignment statement (including converting the strings to lists),
-        # and I found that this method was the easiest and cleanest way to do
-        # it.
-        updated_question = which_question.replace(key, value)
-    else:
-        updated_question = updated_question.replace(
-            key, value)
-    print "\n" + updated_question
-    return updated_question
-
 
 def you_are_incorrect(key, value, num_attempts, correct_answers):
     """
