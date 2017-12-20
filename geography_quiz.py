@@ -121,10 +121,9 @@ def play_quiz(which_dictionary, which_question, num_attempts):
     : Return: None (directs the program to other functions and prints some
     messages).
     """
-    blanks_completed = 0 # Tracks how many blanks have been completed up to
-    # that point during play
-    correct_answers = [0] # Tracks how many blanks have been correctly answered
-    # by the user
+    blanks_completed = 0
+    correct_answers = [0]
+    updated_question = ''
     for key, value in sorted(which_dictionary.iteritems()):
         user_answer = raw_input(
             '\nWhat should be substituted for ' + key + '? ').upper()
@@ -133,11 +132,17 @@ def play_quiz(which_dictionary, which_question, num_attempts):
             correct_answers[0] += 1
         else:
             you_are_incorrect(key, value, num_attempts, correct_answers)
-        fill_it_in(key, value, which_question, blanks_completed)
+        if blanks_completed == 0:
+            # When the first blank in the question is filled, the original
+            # question must be updated. When subsequent blanks are filled, the
+            # updated question must be updated.
+            updated_question = which_question.replace(key, value)
+        else:
+            updated_question = updated_question.replace(key, value)
+        print "\n" + updated_question
         blanks_completed = blanks_completed + 1
     print '\nThanks for playing! You answered ' + str(correct_answers[0]) +\
           ' out of ' + str(len(which_dictionary)) + ' correctly'
-    again()
 
 
 def attempts():
@@ -220,4 +225,5 @@ def again():
 
 print '\nWelcome to the quiz!\n'
 question_allocation()
+again()
 raw_input('Press Enter to exit')
