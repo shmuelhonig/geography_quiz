@@ -143,6 +143,7 @@ def play_quiz(which_dictionary, which_question, num_attempts):
         blanks_completed = blanks_completed + 1
     print '\nThanks for playing! You answered ' + str(correct_answers[0]) +\
           ' out of ' + str(len(which_dictionary)) + ' correctly'
+    again()
 
 
 def attempts():
@@ -225,5 +226,4 @@ def again():
 
 print '\nWelcome to the quiz!\n'
 question_allocation()
-again()
 raw_input('Press Enter to exit')
